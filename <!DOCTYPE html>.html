@@ -6,8 +6,66 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="">
-        <label for="name">Nom:</label>
+    <h1>Formulaire de reclamation</h1>
+    <form action="_blank" method="post">
+        <label for="nom">Nom</label>
+        <input type="text" id="nom" name="name">
+
+        <br>
+        
+        <label for="prenom">Prénom</label>
+        <input type="text" id="prenom" name="prenom">
+    
+        <br>
+
+        <label for="genre">Genre</label>
+        <select id="genre" name="genre" >
+            <option value="homme">Homme</option>
+            <option value="femme">Femme</option>
+            <option value="non-binaire">Non-binaire</option>
+        </select>
+
+        <br>
+
+        <label for="naissance">Date de naissance</label>
+        <input type="text" id="naissance" name="naissance" >
+
+        <br>
+        
+        <label for="voiture">Valeur de voiture</label>
+        <input type="text" id="voiture" name="voiture" >
+        <br>
+
+        <label for="kilometre">Kilometres parcourus</label>
+        <input type="text" id="kilometre" name="kilometre" >
+
+        <br>
+
+        <label for="camera">Camera de recul</label>
+        <select id="camera" name="camera" >
+            <option value="oui-camera">Oui</option>
+            <option value="non-camera">Non</option>
+        </select>
+
+        <br>
+
+        <label for="reclamation">Avez vous fait des reclamation d'auto</label>
+        <select id="reclamation" name="reclamation" >
+            <option value="oui-reclamaition">Oui</option>
+            <option value="non-reclamation">Non</option>
+        </select>
+        <br>
+
+        <label for="numero-reclamation">Combien de réclamations avez-vous faites?</label>
+        <input type="text" id="numero-reclamation" name="numero-reclamation">
+
+        <br>
+
+        <!--For each numero de reclamation, get numero print and put on this method-->
+
+        <label for="x-reclamation">Pour la réclamation #x, quel montant avez-vous réclamé</label>
+        <input type="text" id="x-reclamation" name="x-reclamation">
+        <input type="submit" value="Envoyer">
     </form>
 </body>
 </html>
