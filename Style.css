@@ -1,0 +1,16 @@
+*{
+    padding: auto;
+    margin: auto;
+}
+body{
+    background-color: rgb(206, 211, 186);
+}
+h1{
+    text-align: center;
+    color: brown;
+    padding-bottom: 30px;
+}
+form{
+    text-align: center;
+    background-color: rgb(211, 218, 218);
+}
