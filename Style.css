@@ -5,7 +5,11 @@
 body{
     background-color: rgb(206, 211, 186);
 }
+br{
+    padding-top: 10px;
+}
 h1{
+    padding-top: 30px;
     text-align: center;
     color: brown;
     padding-bottom: 30px;
@@ -13,4 +17,12 @@ h1{
 form{
     text-align: center;
     background-color: rgb(211, 218, 218);
+    margin-top: 30px;
+    margin-left: 10cm;
+    margin-right: 10cm;
+
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-left: 25px;
+    padding-right: 25px;
 }

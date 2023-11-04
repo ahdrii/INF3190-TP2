@@ -10,17 +10,8 @@
 <body>
     <h1>Formulaire de reclamation</h1>
     <form action="_blank" method="post">
-        <label for="nom">Nom</label>
-        <input type="text" id="nom" name="name">
-
-        <br>
-        
-        <label for="prenom">Prénom</label>
-        <input type="text" id="prenom" name="prenom">
-    
-        <br>
-
-        <label for="genre">Genre</label>
+        <!--Gobal msg: Désolé, nous n'avons aucun produit à offrir pour ce profil de client-->
+        <label for="genre">Quel est votre genre :</label>
         <select id="genre" name="genre" >
             <option value="homme">Homme</option>
             <option value="femme">Femme</option>
@@ -29,44 +20,84 @@
 
         <br>
 
-        <label for="naissance">Date de naissance</label>
-        <input type="text" id="naissance" name="naissance" >
-
+        <label for="naissance">Date de naissance :</label>
+        <input type="date" id="naissance" name="naissance" >
+    
+        <!-- make sure its ints-->
+        <!--calc age, then calc if >16 and girl == err OR if >18 and boy or nb OR if girl or boy or nb > 100 == err-->
         <br>
         
-        <label for="voiture">Valeur de voiture</label>
+        <label for="voiture">Valeur de voiture :</label>
         <input type="text" id="voiture" name="voiture" >
+        <!-- make sure its ints-->
+
+        <!--if value>=100 000$ = err-->
         <br>
 
-        <label for="kilometre">Kilometres parcourus</label>
+        <label for="anne-voiture">Anné de fabrication de voiture :
+        </label>
+        <input type="text" id="anne-voiture" name="anne-voiture">
+        <br>
+        <!-- make sure its ints 4-->
+
+        <!--calculate age of car if > 25,  err-->
+        
+        <label for="kilometre">Kilometres parcourus par année :</label>
         <input type="text" id="kilometre" name="kilometre" >
 
         <br>
 
-        <label for="camera">Camera de recul</label>
+        <label for="camera">Avez vous une camera de recul :</label>
         <select id="camera" name="camera" >
             <option value="oui-camera">Oui</option>
             <option value="non-camera">Non</option>
         </select>
-
+        <!--- IF NO camera == err-->
         <br>
 
-        <label for="reclamation">Avez vous fait des reclamation d'auto</label>
+        <label for="reclamation">Avez vous fait des reclamation d'auto dans les 6 dernieres années :</label>
         <select id="reclamation" name="reclamation" >
             <option value="oui-reclamaition">Oui</option>
             <option value="non-reclamation">Non</option>
         </select>
         <br>
+        <script>
+            if(document.onclick(oui-reclamation)){
+                document.show(numero-reclamation)
+            }
+        </script>
 
-        <label for="numero-reclamation">Combien de réclamations avez-vous faites?</label>
-        <input type="text" id="numero-reclamation" name="numero-reclamation">
-
+        <!--default ==  numero reclamation hidden-->
+        <label for="numero-reclamation">Combien de réclamations avez-vous faites :</label>
+        <select id="numero-reclamation" name="numero-reclamation" >
+            <option value="un-reclamaition">1</option>
+            <option value="deux-reclamation">2</option>
+            <option value="trois-reclamaition">3</option>
+            <option value="4-reclamation">4</option>
+            <option value="5plus-reclamaition">5+</option>
+        </select>
         <br>
 
-        <!--For each numero de reclamation, get numero print and put on this method-->
+        <!--For each numero de reclamation, get numero print and put on this method
+        1.check input number
+        if input == 5+ then err
+        take input and make the requests of each which $$ has it been claimed
+        if valuer reclamation is > 35 000$ then err
+        -->
 
-        <label for="x-reclamation">Pour la réclamation #x, quel montant avez-vous réclamé</label>
-        <input type="text" id="x-reclamation" name="x-reclamation">
+        <label for="1-reclamation">Pour la réclamation 1, quel montant avez-vous réclamé :</label>
+        <input type="text" id="1-reclamation" name="1-reclamation">
+        <br>
+        <label for="2-reclamation">Pour la réclamation 2, quel montant avez-vous réclamé :</label>
+        <input type="text" id="2-reclamation" name="2-reclamation">
+        <br>
+        <label for="3-reclamation">Pour la réclamation 3, quel montant avez-vous réclamé :</label>
+        <input type="text" id="3-reclamation" name="3-reclamation">
+        <br>
+        <label for="4-reclamation">Pour la réclamation 4, quel montant avez-vous réclamé :</label>
+        <input type="text" id="4-reclamation" name="4-reclamation">
+        <br>
+
         <input type="submit" value="Envoyer">
     </form>
 </body>
