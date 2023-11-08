@@ -6,54 +6,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="Style.css">
+    <script src="myScript.js"></script>
 </head>
 <body>
     <h1>Formulaire de reclamation</h1>
-    <form action="_blank" method="post">
+    <form action="_blank" method="post" onsubmit="return validateForm()">
         <!--Gobal msg: Désolé, nous n'avons aucun produit à offrir pour ce profil de client-->
         <label for="genre">Quel est votre genre :</label>
         <select id="genre" name="genre" >
+            <option value="empty-genre"></option>
             <option value="homme">Homme</option>
             <option value="femme">Femme</option>
             <option value="non-binaire">Non-binaire</option>
         </select>
-
-        <br>
+        <div id="genre-error" class="error"></div>
 
         <label for="naissance">Date de naissance :</label>
         <input type="date" id="naissance" name="naissance" >
-    
-        <!-- make sure its ints-->
+        <div id="naissance-error" class="error"></div>
+
         <!--calc age, then calc if >16 and girl == err OR if >18 and boy or nb OR if girl or boy or nb > 100 == err-->
-        <br>
         
         <label for="voiture">Valeur de voiture :</label>
         <input type="text" id="voiture" name="voiture" >
-        <!-- make sure its ints-->
+        <div id="voiture-error" class="error"></div>
 
-        <!--if value>=100 000$ = err-->
-        <br>
+        
 
-        <label for="anne-voiture">Anné de fabrication de voiture :
+        <label for="annee">Anné de fabrication de voiture :
         </label>
-        <input type="text" id="anne-voiture" name="anne-voiture">
-        <br>
-        <!-- make sure its ints 4-->
+        <input type="text" id="annee" name="annee">
+        <div id="annee-error" class="error"></div>
 
-        <!--calculate age of car if > 25,  err-->
+
         
         <label for="kilometre">Kilometres parcourus par année :</label>
         <input type="text" id="kilometre" name="kilometre" >
+        <div id="kilo-error" class="error"></div>
 
-        <br>
 
         <label for="camera">Avez vous une camera de recul :</label>
         <select id="camera" name="camera" >
+            <option value="empty-camera"></option>
             <option value="oui-camera">Oui</option>
             <option value="non-camera">Non</option>
         </select>
-        <!--- IF NO camera == err-->
-        <br>
+        <div id="camera-error" class="error"></div>
+
+
 
         <label for="reclamation">Avez vous fait des reclamation d'auto dans les 6 dernieres années :</label>
         <select id="reclamation" name="reclamation" >
@@ -61,16 +61,13 @@
             <option value="non-reclamation">Non</option>
         </select>
         <br>
-        <script>
-            if(document.onclick(oui-reclamation)){
-                document.show(numero-reclamation)
-            }
-        </script>
 
-        <!--default ==  numero reclamation hidden-->
+
+        <div>
+            <!--default ==  numero reclamation hidden-->
         <label for="numero-reclamation">Combien de réclamations avez-vous faites :</label>
         <select id="numero-reclamation" name="numero-reclamation" >
-            <option value="un-reclamaition">1</option>
+            <option value="une-reclamaition">1</option>
             <option value="deux-reclamation">2</option>
             <option value="trois-reclamaition">3</option>
             <option value="4-reclamation">4</option>
@@ -96,6 +93,9 @@
         <br>
         <label for="4-reclamation">Pour la réclamation 4, quel montant avez-vous réclamé :</label>
         <input type="text" id="4-reclamation" name="4-reclamation">
+        </div>
+        
+
         <br>
 
         <input type="submit" value="Envoyer">
