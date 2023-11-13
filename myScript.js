@@ -1,59 +1,22 @@
 
-    // function validateForm() {
-    //     clearErrorMessages(); // Clear any previous error messages
-
-    //     const genreSelect = document.getElementById("genre");
-    //     const naissanceInput = document.getElementById("naissance");
-    //     const emptyError = document.getElementById("error-empty");
-    //     const naissanceError = document.getElementById("naissance-empty");
-
-    //     // Check if the user selects the empty option
-    //     if (genreSelect.value === "empty") {
-    //         displayErrorMessage("Ce champs est vide.", emptyError);
-    //         return false; // Prevent the form from submitting
-    //     }
-    //     //naissance! 
-    //     if (!isValidDate(naissanceInput)) {
-    //         displayErrorMessage("Veuillez selectionner une date de naissance ex. 1970-01-06.", naissanceError);
-    //         return false; // Prevent the form from submitting
-    //     }
-    //     // You can add more validation logic for other form fields here
-    //     return true; // Allow form submission if all validations pass
-    // }
-
-    // function isValidDate(dateInput) {
-    //     const dateValue = dateInput.valueAsDate;
-    //     if (dateValue===null){
-    //         return false;
-    //     }
-    //     return true;
-    //     // Check if the date string matches the expected format and does not contain "-"
-    // }
-
-
-    // function displayErrorMessage(message, errorElement) {
-    //     errorElement.textContent = message;
-    //     errorElement.style.color = "red";
-    // }
-
-    // function clearErrorMessages() {
-    //     const errorElements = document.querySelectorAll(".error");
-    //     for (const errorElement of errorElements) {
-    //         errorElement.textContent = "";
-    //     }
-    // }
-
-
+    
+    window.addEventListener("load", function (){defaultDiv()});
     function validateForm() {
         clearErrorMessages(); // Clear any previous error messages
-
         const genreSelect = document.getElementById("genre");
         const naissanceInput = document.getElementById("naissance");
         const voitureInput = document.getElementById("voiture");
         const anneeInput = document.getElementById("annee");
         const kiloInput = document.getElementById("kilometre");
         const cameraSelect = document.getElementById("camera");
-        const  reclamationSelect= document.getElementById("reclamation");
+        const reclamationSelect= document.getElementById("reclamation");
+        const reclamationNumbers= document.getElementById("numero-reclamation");
+        const oneReclamation= document.getElementById("1-reclamation");
+        const twoReclamation= document.getElementById("2-reclamation");
+        const threeReclamation= document.getElementById("3-reclamation");
+        const fourReclamation= document.getElementById("4-reclamation");
+
+
 
 
         const genreError = document.getElementById("genre-error");
@@ -62,12 +25,16 @@
         const anneeError = document.getElementById("annee-error");
         const kiloError = document.getElementById("kilo-error");
         const cameraError = document.getElementById("camera-error");
+        const reclamationError = document.getElementById("reclamation-error");
+        const numerReclamationError = document.getElementById("number-reclamation-error");
+
 
 
 
 
         const voitureValue = voitureInput.value;
         const isNumeric = /^\d+$/.test(voitureValue);
+
         
 
         // Check genre select
@@ -80,9 +47,16 @@
         if (!isValidDate(naissanceInput)) {
             displayErrorMessage("Veuillez selectionner une date de naissance ex. 1970-01-06.", naissanceError);
         }
-        else if(naissanceInput){
-
+        // else { //debug
+        //     displayErrorMessage(isAge(naissanceInput),naissanceError);
+        // }
+        else if ((genreSelect.value ==="femme"&&isAge(naissanceInput)<16)  || ((genreSelect.value ==="homme"||genreSelect.value==="non-binaire")&&isAge(naissanceInput)<18)){
+            displayErrorMessage("Désolé, nous n'avons aucun produit à offrir pour ce profil de client", naissanceError);
         }
+        else if(isAge(naissanceInput)>=100){
+            displayErrorMessage("Désolé, nous n'avons aucun produit à offrir pour ce profil de client", naissanceError);
+        }
+        
         //validation value
         if (voitureInput.value.trim() === "") {
             displayErrorMessage("Veuillez ecrire votre valeur de voiture", voitureError);
@@ -101,7 +75,7 @@
         else if (anneeInput.value.length !== 4 || isNaN(anneeInput.value)) {
             displayErrorMessage("La valeur de l'année de la voiture doit contenir exactement 4 chiffres.", anneeError);
         }
-        else if(anneeInput.value<1998 || anneeInput.value>2023){
+        else if(calcAgeCar(anneeInput)>25 || calcAgeCar(anneeInput)<0){
             displayErrorMessage("Désolé, nous n'avons aucun produit à offrir pour ce profil de client", anneeError);
         }
 
@@ -122,33 +96,119 @@
             displayErrorMessage("Ce champs est vide.", cameraError);
         }
         else if (cameraSelect.value ==="non-camera"){
-            displayErrorMessage("Désolé, nous n'avons aucun produit à offrir pour ce profil de client",cameraError)
+            displayErrorMessage("Désolé, nous n'avons aucun produit à offrir pour ce profil de client",cameraError);
         }
 
 
         //reclamation valid
 
-        if(reclamationInput.value === "oui-reclamation"){
-            show
+        if(reclamationSelect.value === "empty-reclamation"){
+            displayErrorMessage("Ce champs est vide.", reclamationError);
+            // window.addEventListener("load", function (){defaultDiv()});
+        }
+        else if(reclamationSelect.value === "oui-reclamation"){
+            showDiv();
+        }
+        else if (reclamationSelect.value === "non-reclamation"){
+            // window.addEventListener("load", function (){defaultDiv()});
+        }
+
+        //number reclamation
+
+        if(reclamationNumbers.value === "cinq-reclamation"){
+            displayErrorMessage("Désolé, nous n'avons aucun produit à offrir pour ce profil de client",numerReclamationError);
+            //TODO : HIDE ALL SHOWDIVS1,2,3,4
+        }
+
+        else if(reclamationNumbers.value === "une-reclamaition"){
+            showDiv1();
+        }
+        else if(reclamationNumbers.value === "deux-reclamation"){
+            showDiv1();
+            showDiv2();
+        }
+        else if(reclamationNumbers.value === "trois-reclamation"){
+            showDiv1();
+            showDiv2();
+            showDiv3();
+        }
+        else if(reclamationNumbers.value === "quattre-reclamation"){
+            showDiv1();
+            showDiv2();
+            showDiv3();
+            showDiv4();
         }
 
         return false
 
         // You can add more validation logic for other form fields here
+    }
+    function showDiv1(){
+        const myDiv1 = document.getElementById("question-one");
+        myDiv1.style.display = "block";
+    }
+    function showDiv2(){
+        const myDiv2 = document.getElementById("question-two");
+        myDiv2.style.display = "block";
+    }
+    function showDiv3(){
+        const myDiv3 = document.getElementById("question-three");
+        myDiv3.style.display = "block";
+    }
+    function showDiv4(){
+        const myDiv4 = document.getElementById("question-four");
+        myDiv4.style.display = "block";
+    }
+
+    //show div
+    function showDiv(){
+        const myDiv = document.getElementById("reclamationDetails");
+        myDiv.style.display = "block";
+    }
+
+    function defaultDiv(){
+        const myDiv = document.getElementById("reclamationDetails");
+        const myDiv1 = document.getElementById("question-one");
+        const myDiv2 = document.getElementById("question-two");
+        const myDiv3 = document.getElementById("question-three");
+        const myDiv4 = document.getElementById("question-four");
+        myDiv.style.display = "none";
+        myDiv1.style.display = "none";
+        myDiv2.style.display = "none";
+        myDiv3.style.display = "none";
+        myDiv4.style.display = "none";
 
     }
 
 
 
+    
+    
+    function calcAgeCar(anneeInput){
+        const carYear = anneeInput.value;
+        const currentDate = new Date();
+
+        return currentDate.getFullYear()-carYear;
+    }
 
     //validate naissance if unselected
     function isValidDate(dateInput) {
         const dateValue = dateInput.valueAsDate;
+        const today = new Date();
         if (dateValue===null){
             return false;
         }
         return true;
-        // Check if the date string matches the expected format and does not contain "-"
+    }
+    function isAge(dateInput){
+        
+        const dateValue = dateInput.valueAsDate;
+        const today = new Date();
+        const birthDate = new Date(dateValue);
+        let age = today.getFullYear() - birthDate.getFullYear();
+    
+        // Display the age
+        return age; 
     }
 
 

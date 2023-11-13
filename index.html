@@ -24,6 +24,7 @@
         <label for="naissance">Date de naissance :</label>
         <input type="date" id="naissance" name="naissance" >
         <div id="naissance-error" class="error"></div>
+        <div id="result"></div>
 
         <!--calc age, then calc if >16 and girl == err OR if >18 and boy or nb OR if girl or boy or nb > 100 == err-->
         
@@ -57,23 +58,25 @@
 
         <label for="reclamation">Avez vous fait des reclamation d'auto dans les 6 dernieres années :</label>
         <select id="reclamation" name="reclamation" >
-            <option value="oui-reclamaition">Oui</option>
+            <option value="empty-reclamation"></option>
+            <option value="oui-reclamation">Oui</option>
             <option value="non-reclamation">Non</option>
         </select>
-        <br>
+        <div id="reclamation-error" class="error"></div>
 
 
-        <div>
+        <div id="reclamationDetails">
             <!--default ==  numero reclamation hidden-->
         <label for="numero-reclamation">Combien de réclamations avez-vous faites :</label>
         <select id="numero-reclamation" name="numero-reclamation" >
             <option value="une-reclamaition">1</option>
             <option value="deux-reclamation">2</option>
-            <option value="trois-reclamaition">3</option>
-            <option value="4-reclamation">4</option>
-            <option value="5plus-reclamaition">5+</option>
+            <option value="trois-reclamation">3</option>
+            <option value="quattre-reclamation">4</option>
+            <option value="cinq-reclamation">5+</option>
         </select>
-        <br>
+        <div id="number-reclamation-error" class="error"></div>
+        </div>
 
         <!--For each numero de reclamation, get numero print and put on this method
         1.check input number
@@ -81,22 +84,25 @@
         take input and make the requests of each which $$ has it been claimed
         if valuer reclamation is > 35 000$ then err
         -->
-
-        <label for="1-reclamation">Pour la réclamation 1, quel montant avez-vous réclamé :</label>
-        <input type="text" id="1-reclamation" name="1-reclamation">
-        <br>
-        <label for="2-reclamation">Pour la réclamation 2, quel montant avez-vous réclamé :</label>
-        <input type="text" id="2-reclamation" name="2-reclamation">
-        <br>
-        <label for="3-reclamation">Pour la réclamation 3, quel montant avez-vous réclamé :</label>
-        <input type="text" id="3-reclamation" name="3-reclamation">
-        <br>
-        <label for="4-reclamation">Pour la réclamation 4, quel montant avez-vous réclamé :</label>
-        <input type="text" id="4-reclamation" name="4-reclamation">
+        <div id="question-one">
+            <label for="1-reclamation">Pour la réclamation 1, quel montant avez-vous réclamé :</label>
+            <input type="text" id="1-reclamation" name="1-reclamation">
         </div>
-        
-
+        <div id="question-two">
+            <label for="2-reclamation">Pour la réclamation 2, quel montant avez-vous réclamé :</label>
+            <input type="text" id="2-reclamation" name="2-reclamation">
+        </div>
+        <div id="question-three">
+            <label for="3-reclamation">Pour la réclamation 3, quel montant avez-vous réclamé :</label>
+            <input type="text" id="3-reclamation" name="3-reclamation">
+            <br>
+        </div>
+        <div id="question-four">
+            <label for="4-reclamation">Pour la réclamation 4, quel montant avez-vous réclamé :</label>
+            <input type="text" id="4-reclamation" name="4-reclamation">
+        </div>
         <br>
+        
 
         <input type="submit" value="Envoyer">
     </form>
