@@ -113,13 +113,11 @@
             // window.addEventListener("load", function (){defaultDiv()});
         }
 
+
         //number reclamation
-
-        if(reclamationNumbers.value === "cinq-reclamation"){
-            displayErrorMessage("Désolé, nous n'avons aucun produit à offrir pour ce profil de client",numerReclamationError);
-            //TODO : HIDE ALL SHOWDIVS1,2,3,4
+        if(reclamationNumbers.value === "vide-reclamation"){
+            displayErrorMessage("Ce champs est vide.", numerReclamationError);
         }
-
         else if(reclamationNumbers.value === "une-reclamaition"){
             showDiv1();
         }
@@ -137,6 +135,10 @@
             showDiv2();
             showDiv3();
             showDiv4();
+        }
+        else if(reclamationNumbers.value === "cinq-reclamation"){
+            displayErrorMessage("Désolé, nous n'avons aucun produit à offrir pour ce profil de client",numerReclamationError);
+            //TODO : HIDE ALL SHOWDIVS1,2,3,4
         }
 
         return false
