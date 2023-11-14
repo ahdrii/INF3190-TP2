@@ -1,6 +1,6 @@
 
     
-    window.addEventListener("load", function (){defaultDiv()});
+    window.addEventListener("load", defaultDiv);
     function validateForm() {
         clearErrorMessages(); // Clear any previous error messages
         const genreSelect = document.getElementById("genre");
@@ -26,7 +26,7 @@
         const kiloError = document.getElementById("kilo-error");
         const cameraError = document.getElementById("camera-error");
         const reclamationError = document.getElementById("reclamation-error");
-        const numerReclamationError = document.getElementById("number-reclamation-error");
+        const numberReclamationError = document.getElementById("number-reclamation-error");
 
 
 
@@ -47,28 +47,23 @@
         if (!isValidDate(naissanceInput)) {
             displayErrorMessage("Veuillez selectionner une date de naissance ex. 1970-01-06.", naissanceError);
         }
-        // else { //debug
-        //     displayErrorMessage(isAge(naissanceInput),naissanceError);
-        // }
-        else if ((genreSelect.value ==="femme"&&isAge(naissanceInput)<16)  || ((genreSelect.value ==="homme"||genreSelect.value==="non-binaire")&&isAge(naissanceInput)<18)){
-            displayErrorMessage("Désolé, nous n'avons aucun produit à offrir pour ce profil de client", naissanceError);
-        }
-        else if(isAge(naissanceInput)>=100){
+        else if ((genreSelect.value ==="femme"&&isAge(naissanceInput)<16)  || ((genreSelect.value ==="homme"||genreSelect.value==="non-binaire")&&isAge(naissanceInput)<18) || isAge(naissanceInput)>=100){
             displayErrorMessage("Désolé, nous n'avons aucun produit à offrir pour ce profil de client", naissanceError);
         }
         
-        //validation value
-        if (voitureInput.value.trim() === "") {
+        
+        //validation value of voiture
+        if (voitureValue === "") {
             displayErrorMessage("Veuillez ecrire votre valeur de voiture", voitureError);
         }
         else if (!isNumeric) {
             displayErrorMessage("La valeur de votre voiture doit contenir uniquement des chiffres.", voitureError);
         }
-        else if(voitureInput.value > 100000){
+        else if(voitureValue > 100000){
             displayErrorMessage("Désolé, nous n'avons aucun produit à offrir pour ce profil de client", voitureError);
         }
 
-        //annnee voiture
+        //valider annnee voiture
         if (anneeInput.value.trim() === "") {
             displayErrorMessage("Veuillez ecrire l'annee de la voiture", anneeError);
         }
@@ -79,7 +74,7 @@
             displayErrorMessage("Désolé, nous n'avons aucun produit à offrir pour ce profil de client", anneeError);
         }
 
-        //kilometre
+        //check kilometre
         if (kiloInput.value.trim() === "") {
             displayErrorMessage("Veuillez ecrire le kilometrage de la voiture", kiloError);
         }
@@ -91,7 +86,7 @@
         }
 
 
-        //camera recul
+        //check camera recul
         if (cameraSelect.value === "empty-camera") {
             displayErrorMessage("Ce champs est vide.", cameraError);
         }
@@ -116,7 +111,7 @@
 
         //number reclamation
         if(reclamationNumbers.value === "vide-reclamation"){
-            displayErrorMessage("Ce champs est vide.", numerReclamationError);
+            displayErrorMessage("Ce champs est vide.", numberReclamationError);
         }
         else if(reclamationNumbers.value === "une-reclamaition"){
             showDiv1();
@@ -137,7 +132,7 @@
             showDiv4();
         }
         else if(reclamationNumbers.value === "cinq-reclamation"){
-            displayErrorMessage("Désolé, nous n'avons aucun produit à offrir pour ce profil de client",numerReclamationError);
+            displayErrorMessage("Désolé, nous n'avons aucun produit à offrir pour ce profil de client",numberReclamationError);
             //TODO : HIDE ALL SHOWDIVS1,2,3,4
         }
 
@@ -179,7 +174,6 @@
         myDiv2.style.display = "none";
         myDiv3.style.display = "none";
         myDiv4.style.display = "none";
-
     }
 
 
@@ -225,5 +219,4 @@
             errorElement.textContent = "";
         }
     }
-
 
