@@ -1,5 +1,3 @@
-
-    
     window.addEventListener("load", function () {
         defaultDiv();
         const genreSelect = document.getElementById("genre");
@@ -95,8 +93,6 @@
         });
 
 
-
-
         //CHECK NUMBER RECLAMATION :: FUNCTIONAL BUT NEED TO BE BETTER
         reclamationNumbers.addEventListener('change', function() {
             if (reclamationNumbers.value === "vide-reclamation") {
@@ -139,7 +135,10 @@
         });
     });
 
+    //div arrays to be hidden by default
+    let myDivArray = ["reclamationDetails", "question-one", "question-two", "question-three", "question-four"];
     
+    //******************************************
     function showDiv(){
         const reclamationNumDiv = document.getElementById("reclamationDetails");
         reclamationNumDiv.style.display = "block";
@@ -282,14 +281,6 @@
         return true;
     }
 
-
-
-
-
-
-
-
-
     //******************************************
     //**       FUNCTION OF EXECUTIONS         **
     //******************************************
@@ -317,7 +308,6 @@
         const today = new Date();
         const birthDate = new Date(dateValue);
         let age = today.getFullYear() - birthDate.getFullYear();
-    
         // Display the age
         return age; 
     }
