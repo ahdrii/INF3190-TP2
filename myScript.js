@@ -15,6 +15,10 @@
 
 
 
+        const resetButton = document.getElementById("resetButton");
+        const submitButton = document.getElementById("submit-button");
+    
+
         const genreError = document.getElementById("genre-error");
         const naissanceError = document.getElementById("naissance-error");
         const voitureError = document.getElementById("voiture-error");
@@ -23,11 +27,23 @@
         const cameraError = document.getElementById("camera-error");
         const reclamationError = document.getElementById("reclamation-error");
         const numberReclamationError = document.getElementById("number-reclamation-error");
+        const oneReclamationError = document.getElementById("1-reclamation-error");
+        const twoReclamationError = document.getElementById("2-reclamation-error");
+        const threeReclamationError = document.getElementById("3-reclamation-error");
+        const fourReclamationError = document.getElementById("4-reclamation-error");
+        const totalReclamationError = document.getElementById("amount-error");
+
+        const showAnnualRate = document.getElementById("annual-rate");
+        const showMonthlyRate = document.getElementById("monthly-rate");
+
+
 
         //******************************************
         //**            EVENT LISTENERS           **
         //******************************************
 
+        // RESET BUTTON
+        resetButton.style.display = 'none'; // Hide the reset button by default
 
         // CHECK GENRE
         genreSelect.addEventListener('change', function() {
@@ -131,13 +147,56 @@
                 defaultDiv();
                 showDiv();
                 displayErrorMessage("Désolé, nous n'avons aucun produit à offrir pour ce profil de client", numberReclamationError);
+            } 
+
+        })
+        
+
+        //CHECK RECLAMATION 1
+        oneReclamation.addEventListener('change', function() {
+            if (validateReclamationInput(oneReclamation,oneReclamationError)) {
+                checkOverload(oneReclamation, twoReclamation, threeReclamation, fourReclamation, totalReclamationError);
             }
         });
+
+        //CHECK RECLAMATION 2
+        twoReclamation.addEventListener('change', function() {
+            if (validateReclamationInput(twoReclamation,twoReclamationError)) {
+                checkOverload(oneReclamation, twoReclamation, threeReclamation, fourReclamation, totalReclamationError);
+            }
+        });
+
+        //CHECK RECLAMATION 3  
+        threeReclamation.addEventListener('change', function() {
+            if (validateReclamationInput(threeReclamation,threeReclamationError)) {
+                checkOverload(oneReclamation, twoReclamation, threeReclamation, fourReclamation, totalReclamationError);
+            }
+        });
+
+        //CHECK RECLAMATION 4
+        fourReclamation.addEventListener('change', function() {
+            if (validateReclamationInput(fourReclamation,fourReclamationError)) {
+                checkOverload(oneReclamation, twoReclamation, threeReclamation, fourReclamation, totalReclamationError);
+            }
+            
+        });
+
+//we have the reclamation inputs, need MONTANT BASE, NBR RECLAMATION, KILOMETRES
+submitButton.addEventListener('click', function() {
+    let totalReclamations = checkOverload(oneReclamation, twoReclamation, threeReclamation, fourReclamation, totalReclamationError); //will either return 0 or 700
+    let myKilo = kiloInput.value; //kilometrage de user 
+    let mynumberReclamation = getNbrReclamation(reclamationNumbers); //nbr de reclamation de user
+    let mybaseRate = getbaseRate(genreSelect,naissanceInput,voitureInput); //base rate de user
+    let myAnnualRate = calculateAnnualRate(mybaseRate, mynumberReclamation, myKilo, totalReclamations); //annual rate de user
+    let myMonthlyRate = calculateMonthlyRate(myAnnualRate); //monthly rate de user
+    displayErrorMessage(myAnnualRate, showAnnualRate); //THIS DISPLAYS THE RECLAMATION INPUTS
+    displayErrorMessage(myMonthlyRate, showMonthlyRate); //THIS DISPLAYS THE RECLAMATION INPUTS
+
+});
+
     });
 
-    //div arrays to be hidden by default
-    let myDivArray = ["reclamationDetails", "question-one", "question-two", "question-three", "question-four"];
-    
+
     //******************************************
     function showDiv(){
         const reclamationNumDiv = document.getElementById("reclamationDetails");
@@ -280,10 +339,90 @@
         clearErrorMessage(reclamationError);
         return true;
     }
+        
+    // VALIDATE RECLAMATION NUMBER CONTENT
+    function validateReclamationInput(reclamation,Errormsg){
+        if (reclamation.value.trim() === "") {
+            displayErrorMessage("Veuillez ecrire votre valeur de reclamation numero 1", Errormsg);
+            return false;
+        } else if (isNaN(reclamation.value)) {
+            displayErrorMessage("La valeur de votre reclamation numero 1 doit contenir uniquement des chiffres.", Errormsg);
+            return false;
+        } else if (Number(reclamation.value) > 35000) {
+            displayErrorMessage("Désolé, nous n'avons aucun produit à offrir pour ce profil de client", Errormsg);
+            return false;
+        }
+        clearErrorMessage(Errormsg);
+        return true;
+    }
+
+    function checkOverload(reclamation1, reclamation2, reclamation3, reclamation4, totalReclamationError){
+        let amount1 = Number(reclamation1.value);
+        let amount2 = Number(reclamation2.value);
+        let amount3 = Number(reclamation3.value);
+        let amount4 = Number(reclamation4.value);
+
+        let total = amount1+amount2+amount3+amount4;
+        if(total>35000){
+            displayErrorMessage("Désolé, nous n'avons aucun produit à offrir pour ce profil de client", totalReclamationError);
+            return false
+        }
+        if(total >25000){
+            return 700;
+        }
+        return 0;
+    }
+
+    //get nbr reclamation reeturn a int
+    function getNbrReclamation(reclamationNumbers){
+        if(reclamationNumbers.value === "vide-reclamation"){
+            return 0;
+        }
+        if(reclamationNumbers.value === "une-reclamation"){
+            return 1;
+        }
+        if(reclamationNumbers.value === "deux-reclamation"){
+            return 2;
+        }
+        if(reclamationNumbers.value === "trois-reclamation"){
+            return 3;
+        }
+        if(reclamationNumbers.value === "quattre-reclamation"){
+            return 4;
+        }
+    }
+
+
+    //get rate base
+    function getbaseRate(genreSelect,naissanceInput,voitureInput){
+        myValuedCar = voitureInput.value;
+        if (genreSelect.value === "homme" || genreSelect.value === "non-binaire" && isAge(naissanceInput) < 25) {
+            return 0.05*myValuedCar //5%
+        }
+        else if (isAge(naissanceInput) <= 75) {
+            return 0.04*myValuedCar; //4%
+        }
+        return 0.015*myValuedCar; //15%
+    }
+
+    //get final rate
+    function calculateAnnualRate(baseRate, nbrReclamation, kilo, totalReclamations){
+        let annualRate = baseRate + (350*nbrReclamation) + (0.02*kilo) + totalReclamations;
+        return annualRate;
+    }
+
+    //get monthly rate
+    function calculateMonthlyRate(annualRate){
+        let monthlyRate = annualRate/12;
+        return monthlyRate;
+    }
+    
+
 
     //******************************************
     //**       FUNCTION OF EXECUTIONS         **
     //******************************************
+
 
 
     function calcAgeCar(anneeInput){
