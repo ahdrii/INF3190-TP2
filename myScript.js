@@ -8,10 +8,10 @@
         const cameraSelect = document.getElementById("camera");
         const reclamationSelect= document.getElementById("reclamation");
         const reclamationNumbers= document.getElementById("numero-reclamation");
-        const oneReclamation= document.getElementById("1-reclamation");
-        const twoReclamation= document.getElementById("2-reclamation");
-        const threeReclamation= document.getElementById("3-reclamation");
-        const fourReclamation= document.getElementById("4-reclamation");
+        let oneReclamation= document.getElementById("1-reclamation");
+        let twoReclamation= document.getElementById("2-reclamation");
+        let threeReclamation= document.getElementById("3-reclamation");
+        let fourReclamation= document.getElementById("4-reclamation");
 
 
 
@@ -26,7 +26,7 @@
         const kiloError = document.getElementById("kilo-error");
         const cameraError = document.getElementById("camera-error");
         const reclamationError = document.getElementById("reclamation-error");
-        const numberReclamationError = document.getElementById("number-reclamation-error");
+        let numberReclamationError = document.getElementById("number-reclamation-error");
         const oneReclamationError = document.getElementById("1-reclamation-error");
         const twoReclamationError = document.getElementById("2-reclamation-error");
         const threeReclamationError = document.getElementById("3-reclamation-error");
@@ -46,16 +46,12 @@
         resetButton.style.display = 'none'; // Hide the reset button by default
 
         // CHECK GENRE
+
         genreSelect.addEventListener('change', function() {
-            if (!validateGenre(genreSelect)) {
-                displayErrorMessage("Ce champs est vide.", genreError);
-            } else {
-                clearErrorMessage(genreError);
-            }
             // Validate the date when the genre changes
-            const errorMessage = validateNaissance(naissanceInput, genreSelect);
-            if (errorMessage) {
-                displayErrorMessage(errorMessage, naissanceError);
+            const validation = validateNaissance(naissanceInput, genreSelect);
+            if (!validation.isValid) {
+                displayErrorMessage(validation.errorMessage, naissanceError);
             }
             else {
                 clearErrorMessage(naissanceError);
@@ -64,25 +60,63 @@
 
 
         // CHECK DATE DE NAISSANCE
+
         naissanceInput.addEventListener('change', function() {
             const errorMessage = validateNaissance(naissanceInput, genreSelect);
-            if (errorMessage) {
+            if (errorMessage === "Veuillez selectionner une date de naissance ex. 1970-01-06.") {
                 displayErrorMessage(errorMessage, naissanceError);
+            } else
+            if (errorMessage === "Désolé, nous n'avons aucun produit à offrir pour ce profil de client") {
+                displayErrorMessage(errorMessage, naissanceError);
+                disableInputs([genreSelect, naissanceInput,voitureInput, anneeInput, kiloInput, cameraSelect, reclamationSelect]);
             } else {
                 clearErrorMessage(naissanceError);
+                //enableInputs([genreSelect, naissanceInput, anneeInput, kiloInput, cameraSelect, reclamationSelect, reclamationNumbers]);
             }
         });
 
-
-        //CHECK VOITURE
-        voitureInput.addEventListener('change', function() {
-            validateVoiture(voitureInput, voitureError);
+        
+        voitureInput.addEventListener('click', function() {
+            const naissanceValue = naissanceInput.value.trim();
+            if (naissanceValue === "") {
+                displayErrorMessage("Ce champs est vide.", naissanceError);
+            }
         });
 
+        // //CHECK VOITURE
+        // voitureInput.addEventListener('click', function() {
+        //     const errorMessage = validateNaissance(naissanceInput, genreSelect);
+        //     if (validateNaissance) {
+        //         displayErrorMessage("Veuillez ecrire l'année de votre voiture", naissanceError);
+        //     }
+        // });
+
+        voitureInput.addEventListener('change', function() {
+            const validation = validateVoiture(voitureInput);
+            if (!validation.isValid) {
+                displayErrorMessage(validation.errorMessage, voitureError);
+                disableInputs([genreSelect, naissanceInput, voitureInput, anneeInput, kiloInput, cameraSelect, reclamationSelect, reclamationNumbers]);
+            }
+            else {
+                clearErrorMessage(voitureError);
+                //enableInputs([genreSelect, naissanceInput, anneeInput, kiloInput, cameraSelect, reclamationSelect, reclamationNumbers]);
+            }
+        });
 
         //CHECK ANNEE
+        // anneeInput.addEventListener('change', function() {
+        //     validateAnnee(anneeInput, anneeError);
+        // });
         anneeInput.addEventListener('change', function() {
-            validateAnnee(anneeInput, anneeError);
+            const validation = validateAnnee(anneeInput);
+            if (!validation.isValid) {
+                displayErrorMessage(validation.errorMessage, anneeError);
+                disableInputs([genreSelect, naissanceInput, voitureInput, anneeInput, kiloInput, cameraSelect, reclamationSelect, reclamationNumbers]);
+            }
+            else {
+                clearErrorMessage(anneeError);
+                enableInputs([genreSelect, naissanceInput, voitureInput, anneeInput, kiloInput, cameraSelect, reclamationSelect, reclamationNumbers]);
+            }
         });
 
 
@@ -103,39 +137,63 @@
             if (reclamationSelect.value === "oui-reclamation") {
                 showDiv();
             } else {
+                //add method that resets the amount
+                resetValues(oneReclamation,twoReclamation,threeReclamation,fourReclamation,totalReclamationError);
+
                 defaultDiv();
+
             }
             validateReclamation(reclamationSelect, reclamationError);
         });
 
 
-        //CHECK NUMBER RECLAMATION :: FUNCTIONAL BUT NEED TO BE BETTER
+        // CHECK NUMBER RECLAMATION :: FUNCTIONAL BUT NEED TO BE BETTER
         reclamationNumbers.addEventListener('change', function() {
             if (reclamationNumbers.value === "vide-reclamation") {
-                clearErrorMessage(numberReclamationError);
+                resetValues(oneReclamation,twoReclamation,threeReclamation,fourReclamation);
                 defaultDiv();
                 showDiv();
                 displayErrorMessage("Ce champs est vide", numberReclamationError);
-            } else if (reclamationNumbers.value === "une-reclamaition") {
+            } else if (reclamationNumbers.value === "une-reclamation") {
+                resetValues(oneReclamation,twoReclamation,threeReclamation,fourReclamation);
                 clearErrorMessage(numberReclamationError);
+                clearErrorMessage(oneReclamationError);
+                clearErrorMessage(twoReclamationError);
+                clearErrorMessage(threeReclamationError);
+                clearErrorMessage(fourReclamationError);
                 defaultDiv();
                 showDiv();
                 showDiv1();
             } else if (reclamationNumbers.value === "deux-reclamation") {
+                resetValues(oneReclamation,twoReclamation,threeReclamation,fourReclamation);
                 clearErrorMessage(numberReclamationError);
+                clearErrorMessage(oneReclamationError);
+                clearErrorMessage(twoReclamationError);
+                clearErrorMessage(threeReclamationError);
+                clearErrorMessage(fourReclamationError);
                 defaultDiv();
                 showDiv();
                 showDiv1();
                 showDiv2();
             } else if (reclamationNumbers.value === "trois-reclamation") {
+                resetValues(oneReclamation,twoReclamation,threeReclamation,fourReclamation);
                 clearErrorMessage(numberReclamationError);
+                clearErrorMessage(oneReclamationError);
+                clearErrorMessage(twoReclamationError);
+                clearErrorMessage(threeReclamationError);
+                clearErrorMessage(fourReclamationError);
                 defaultDiv();
                 showDiv();
                 showDiv1();
                 showDiv2();
                 showDiv3();
             } else if (reclamationNumbers.value === "quattre-reclamation") {
+                resetValues(oneReclamation,twoReclamation,threeReclamation,fourReclamation);
                 clearErrorMessage(numberReclamationError);
+                clearErrorMessage(oneReclamationError);
+                clearErrorMessage(twoReclamationError);
+                clearErrorMessage(threeReclamationError);
+                clearErrorMessage(fourReclamationError);
                 defaultDiv();
                 showDiv();
                 showDiv1();
@@ -143,39 +201,53 @@
                 showDiv3();
                 showDiv4();
             } else if (reclamationNumbers.value === "cinq-reclamation") {
+                resetValues(oneReclamation,twoReclamation,threeReclamation,fourReclamation);
                 clearErrorMessage(numberReclamationError);
+                clearErrorMessage(oneReclamationError);
+                clearErrorMessage(twoReclamationError);
+                clearErrorMessage(threeReclamationError);
+                clearErrorMessage(fourReclamationError);
                 defaultDiv();
                 showDiv();
                 displayErrorMessage("Désolé, nous n'avons aucun produit à offrir pour ce profil de client", numberReclamationError);
             } 
 
         })
+
+
+        
         
 
         //CHECK RECLAMATION 1
         oneReclamation.addEventListener('change', function() {
-            if (validateReclamationInput(oneReclamation,oneReclamationError)) {
+            if (validateReclamationInput(oneReclamation,oneReclamationError, 1)) {
+                clearErrorMessage(oneReclamationError);
+
                 checkOverload(oneReclamation, twoReclamation, threeReclamation, fourReclamation, totalReclamationError);
             }
         });
 
+
         //CHECK RECLAMATION 2
         twoReclamation.addEventListener('change', function() {
-            if (validateReclamationInput(twoReclamation,twoReclamationError)) {
+            if (validateReclamationInput(twoReclamation,twoReclamationError, 2)) {
+                clearErrorMessage(twoReclamationError);
                 checkOverload(oneReclamation, twoReclamation, threeReclamation, fourReclamation, totalReclamationError);
             }
         });
 
         //CHECK RECLAMATION 3  
         threeReclamation.addEventListener('change', function() {
-            if (validateReclamationInput(threeReclamation,threeReclamationError)) {
+            if (validateReclamationInput(threeReclamation,threeReclamationError, 3)) {
+                clearErrorMessage(threeReclamationError);
                 checkOverload(oneReclamation, twoReclamation, threeReclamation, fourReclamation, totalReclamationError);
             }
         });
 
         //CHECK RECLAMATION 4
         fourReclamation.addEventListener('change', function() {
-            if (validateReclamationInput(fourReclamation,fourReclamationError)) {
+            if (validateReclamationInput(fourReclamation,fourReclamationError, 4)) {
+                clearErrorMessage(fourReclamationError);
                 checkOverload(oneReclamation, twoReclamation, threeReclamation, fourReclamation, totalReclamationError);
             }
             
@@ -260,41 +332,49 @@ submitButton.addEventListener('click', function() {
         return "";
     }
 
-    // VALIDATE VOITURE
-
-    function validateVoiture(voitureInput, voitureError) {
-        const voitureValue = voitureInput.value.trim();
     
+    // VALIDATE VOITURE
+    function validateVoiture(voitureInput) {
+        const voitureValue = voitureInput.value.trim();
+
         if (voitureValue === "") {
-            displayErrorMessage("Veuillez ecrire votre valeur de voiture", voitureError);
-            return false;
+            return { isValid: false, errorMessage: "Veuillez ecrire votre valeur de voiture" };
         } else if (isNaN(voitureValue)) {
-            displayErrorMessage("La valeur de votre voiture doit contenir uniquement des chiffres.", voitureError);
-            return false;
+            return { isValid: false, errorMessage: "La valeur de votre voiture doit contenir uniquement des chiffres." };
         } else if (Number(voitureValue) > 100000) {
-            displayErrorMessage("Désolé, nous n'avons aucun produit à offrir pour ce profil de client", voitureError);
-            return false;
+            return { isValid: false, errorMessage: "Désolé, nous n'avons aucun produit à offrir pour ce profil de client" };
         }
-        clearErrorMessage(voitureError);
-        return true;
+        return { isValid: true, errorMessage: "" };
     }
     
     //VALIDATE ANNEE
-    function validateAnnee(anneeInput,anneeError){
-        if(anneeInput.value.trim() === ""){
-            displayErrorMessage("Veuillez ecrire l'annee de la voiture", anneeError);
-            return false;
+    // function validateAnnee(anneeInput,anneeError){
+    //     if(anneeInput.value.trim() === ""){
+    //         displayErrorMessage("Veuillez ecrire l'annee de la voiture", anneeError);
+    //         return false;
+    //     }
+    //     else if(anneeInput.value.length !== 4 || isNaN(anneeInput.value)){
+    //         displayErrorMessage("La valeur de l'année de la voiture doit contenir exactement 4 chiffres.", anneeError);
+    //         return false;
+    //     }
+    //     else if(calcAgeCar(anneeInput)>25 || calcAgeCar(anneeInput)<0){
+    //         displayErrorMessage("Désolé, nous n'avons aucun produit à offrir pour ce profil de client", anneeError);
+    //         return false;
+    //     }
+    //     clearErrorMessage(anneeError);
+    //     return true;
+    // }
+    function validateAnnee(anneeInput) {
+        const anneeValue = anneeInput.value.trim();
+    
+        if (anneeValue === "") {
+            return { isValid: false, errorMessage: "Veuillez ecrire l'année de votre voiture" };
+        } else if (isNaN(anneeValue)) {
+            return { isValid: false, errorMessage: "L'année de votre voiture doit contenir uniquement des chiffres." };
+        } else if (calcAgeCar(anneeInput)>25 || calcAgeCar(anneeInput)<0) {
+            return { isValid: false, errorMessage: "Désolé, nous n'avons aucun produit à offrir pour ce profil de client" };
         }
-        else if(anneeInput.value.length !== 4 || isNaN(anneeInput.value)){
-            displayErrorMessage("La valeur de l'année de la voiture doit contenir exactement 4 chiffres.", anneeError);
-            return false;
-        }
-        else if(calcAgeCar(anneeInput)>25 || calcAgeCar(anneeInput)<0){
-            displayErrorMessage("Désolé, nous n'avons aucun produit à offrir pour ce profil de client", anneeError);
-            return false;
-        }
-        clearErrorMessage(anneeError);
-        return true;
+        return { isValid: true, errorMessage: "" };
     }
 
     //!!!VALIDATE KILO : Question, is allowed to have a decimal input?
@@ -343,10 +423,12 @@ submitButton.addEventListener('click', function() {
     // VALIDATE RECLAMATION NUMBER CONTENT
     function validateReclamationInput(reclamation,Errormsg){
         if (reclamation.value.trim() === "") {
-            displayErrorMessage("Veuillez ecrire votre valeur de reclamation numero 1", Errormsg);
+            displayErrorMessage("Veuillez ecrire votre valeur de reclamation", Errormsg);
+
             return false;
         } else if (isNaN(reclamation.value)) {
-            displayErrorMessage("La valeur de votre reclamation numero 1 doit contenir uniquement des chiffres.", Errormsg);
+            displayErrorMessage("La valeur de votre reclamation doit contenir uniquement des chiffres.", Errormsg);
+
             return false;
         } else if (Number(reclamation.value) > 35000) {
             displayErrorMessage("Désolé, nous n'avons aucun produit à offrir pour ce profil de client", Errormsg);
@@ -417,12 +499,32 @@ submitButton.addEventListener('click', function() {
         return monthlyRate;
     }
     
+    function resetValues(reclamation1, reclamation2, reclamation3, reclamation4) {
+        reclamation1.value = "";
+        reclamation2.value = "";
+        reclamation3.value = "";
+        reclamation4.value = "";
+    }
 
 
     //******************************************
     //**       FUNCTION OF EXECUTIONS         **
     //******************************************
 
+
+        //!!!!!!!!!!!!!!!!!!!!! TEST!!!!!!!!!!!!!!!!!!!!!!
+
+    function disableInputs(inputs) {
+        for (let input of inputs) {
+            input.disabled = true;
+        }
+    } 
+
+    function enableInputs(inputs) {
+        for (let input of inputs) {
+            input.disabled = false;
+        }
+    }
 
 
     function calcAgeCar(anneeInput){
@@ -437,6 +539,9 @@ submitButton.addEventListener('click', function() {
         const dateValue = dateInput.valueAsDate;
         const today = new Date();
         if (dateValue===null){
+            return false;
+        }
+        if (dateValue > today) {
             return false;
         }
         return true;
