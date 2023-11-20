@@ -311,20 +311,19 @@ window.addEventListener("load", function () {
         if (kiloInput.value === "") {
             return false;
         }
-        if (reclamationSelect.value === "oui-reclamation") {
-            if (oneReclamation.value === "") {
+        if (reclamationNumbers.value === "1-reclamation" && oneReclamation.value === "") {
                 return false;
             }
-            if (twoReclamation.value === "") {
+        if (reclamationNumbers.value === "2-reclamation" && twoReclamation.value === "") {
                 return false;
             }
-            if (threeReclamation.value === "") {
+        if (reclamationNumbers.value === "3-reclamation" && threeReclamation.value === "") {
                 return false;
             }
-            if (fourReclamation.value === "") {
+        if (reclamationNumbers.value === "4-reclamation" && fourReclamation.value === "") {
                 return false;
             }
-        }
+        
         return true;
     }
 
@@ -340,6 +339,7 @@ window.addEventListener("load", function () {
         if (checkFilled() === true) {         
             displayErrorMessage(myAnnualRate, showAnnualRate); //THIS DISPLAYS THE RECLAMATION INPUTS
             displayErrorMessage(myMonthlyRate, showMonthlyRate); //THIS DISPLAYS THE RECLAMATION INPUTS
+            resetButton.style.display = 'block';
         }
 
 
