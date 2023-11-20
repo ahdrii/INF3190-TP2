@@ -290,9 +290,6 @@ window.addEventListener("load", function () {
         });
     });  
 
-
-
-    //CHECK RECLAMATION 4 VIDE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     const inputsRecFour= [submitButton];
 
     inputsRecFour.forEach(input => {
@@ -314,22 +311,35 @@ window.addEventListener("load", function () {
         if (kiloInput.value === "") {
             return false;
         }
+        if (reclamationSelect.value === "oui-reclamation") {
+            if (oneReclamation.value === "") {
+                return false;
+            }
+            if (twoReclamation.value === "") {
+                return false;
+            }
+            if (threeReclamation.value === "") {
+                return false;
+            }
+            if (fourReclamation.value === "") {
+                return false;
+            }
+        }
         return true;
     }
 
 //***************************************************************************************************************************************************************
     //we have the reclamation inputs, need MONTANT BASE, NBR RECLAMATION, KILOMETRES
     submitButton.addEventListener('click', function() {
-        if (checkFilled() === true) {
-            let totalReclamations = checkOverload(oneReclamation, twoReclamation, threeReclamation, fourReclamation, totalReclamationError); //will either return 0 or 700
+        let totalReclamations = checkOverload(oneReclamation, twoReclamation, threeReclamation, fourReclamation, totalReclamationError); //will either return 0 or 700
             let myKilo = Number(kiloInput.value); //kilometrage de user 
             let mynumberReclamation = getNbrReclamation(reclamationNumbers, reclamationSelect); //nbr de reclamation de user
             let mybaseRate = getbaseRate(genreSelect,naissanceInput,voitureInput); //base rate de user
             let myAnnualRate = calculateAnnualRate(mybaseRate, mynumberReclamation, myKilo, totalReclamations); //annual rate de user
-            let myMonthlyRate = calculateMonthlyRate(myAnnualRate); //monthly rate de user            
+            let myMonthlyRate = calculateMonthlyRate(myAnnualRate); //monthly rate de user   
+        if (checkFilled() === true) {         
             displayErrorMessage(myAnnualRate, showAnnualRate); //THIS DISPLAYS THE RECLAMATION INPUTS
             displayErrorMessage(myMonthlyRate, showMonthlyRate); //THIS DISPLAYS THE RECLAMATION INPUTS
-            
         }
 
 
