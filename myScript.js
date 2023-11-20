@@ -40,17 +40,32 @@ window.addEventListener("load", function () {
     //**            EVENT LISTENERS           **
     //******************************************
 
-    // RESET BUTTON
-    resetButton.style.display = 'none'; // Hide the reset button by default
-
+    resetButton.style.display = 'none'; 
     resetButton.addEventListener('click', function() {
         clearErrorMessages();
-        enableInputs([genreSelect, naissanceInput, voitureInput, anneeInput, kiloInput, cameraSelect, reclamationSelect, reclamationNumbers, oneReclamation, twoReclamation, threeReclamation, fourReclamation, submitButton]);
+        enableInputs([genreSelect, naissanceInput, voitureInput, anneeInput, kiloInput, cameraSelect, reclamationSelect,
+            reclamationNumbers, oneReclamation, twoReclamation, threeReclamation, fourReclamation, submitButton]);
         clearErrorMessage(showAnnualRate);
         clearErrorMessage(showMonthlyRate);
         defaultDiv();
         resetButton.style.display = 'none'; // Hide the reset button
     })
+
+        //we have the reclamation inputs, need MONTANT BASE, NBR RECLAMATION, KILOMETRES
+        submitButton.addEventListener('click', function() {
+            let totalReclamations = checkOverload(oneReclamation, twoReclamation, threeReclamation, fourReclamation, totalReclamationError);
+                let myKilo = Number(kiloInput.value); //kilometrage de user 
+                let mynumberReclamation = getNbrReclamation(reclamationNumbers, reclamationSelect); //nbr de reclamation de user
+                let mybaseRate = getbaseRate(genreSelect,naissanceInput,voitureInput); //base rate de user
+                let myAnnualRate = calculateAnnualRate(mybaseRate, mynumberReclamation, myKilo, totalReclamations); //annual rate de user
+                let myMonthlyRate = calculateMonthlyRate(myAnnualRate); //monthly rate de user   
+            if (checkFilled() === true) {         
+                displayErrorMessage(myAnnualRate, showAnnualRate); 
+                displayErrorMessage(myMonthlyRate, showMonthlyRate);
+                resetButton.style.display = 'block';
+            }
+        });
+    
 
 
     // CHECK GENRE
@@ -59,7 +74,8 @@ window.addEventListener("load", function () {
         if (!validation.isValid) {
             displayErrorMessage(validation.errorMessage, naissanceError);
             if (validation.errorMessage === "Désolé, nous n'avons aucun produit à offrir pour ce profil de client") {
-                disableInputs([genreSelect, naissanceInput, voitureInput, anneeInput, kiloInput, cameraSelect, reclamationSelect, reclamationNumbers, oneReclamation, twoReclamation, threeReclamation, fourReclamation, submitButton]);
+                disableInputs([genreSelect, naissanceInput, voitureInput, anneeInput, kiloInput, cameraSelect, reclamationSelect,
+                    reclamationNumbers, oneReclamation, twoReclamation, threeReclamation, fourReclamation, submitButton]);
             }
         } else {
             clearErrorMessage(naissanceError);
@@ -72,7 +88,8 @@ window.addEventListener("load", function () {
         if (!validation.isValid) {
             displayErrorMessage(validation.errorMessage, naissanceError);
             if (validation.errorMessage === "Désolé, nous n'avons aucun produit à offrir pour ce profil de client") {
-                disableInputs([genreSelect, naissanceInput, voitureInput, anneeInput, kiloInput, cameraSelect, reclamationSelect, reclamationNumbers, oneReclamation, twoReclamation, threeReclamation, fourReclamation, submitButton]);
+                disableInputs([genreSelect, naissanceInput, voitureInput, anneeInput, kiloInput, cameraSelect, reclamationSelect, 
+                    reclamationNumbers, oneReclamation, twoReclamation, threeReclamation, fourReclamation, submitButton]);
             }
         } else {
             clearErrorMessage(naissanceError);
@@ -85,7 +102,8 @@ window.addEventListener("load", function () {
         if (!validation.isValid) {
             displayErrorMessage(validation.errorMessage, voitureError);
             if (validation.errorMessage === "Désolé, nous n'avons aucun produit à offrir pour ce profil de client") {
-                disableInputs([genreSelect, naissanceInput, voitureInput, anneeInput, kiloInput, cameraSelect, reclamationSelect, reclamationNumbers, oneReclamation, twoReclamation, threeReclamation, fourReclamation, submitButton]);
+                disableInputs([genreSelect, naissanceInput, voitureInput, anneeInput, kiloInput, cameraSelect, reclamationSelect,
+                    reclamationNumbers, oneReclamation, twoReclamation, threeReclamation, fourReclamation, submitButton]);
             }
         }
         else {
@@ -97,7 +115,8 @@ window.addEventListener("load", function () {
     anneeInput.addEventListener('change', function() {
         const validation = validateAnnee(anneeInput, anneeError);
         if (!validation.isValid && validation.errorMessage === "Désolé, nous n'avons aucun produit à offrir pour ce profil de client") {
-            disableInputs([genreSelect, naissanceInput, voitureInput, anneeInput, kiloInput, cameraSelect, reclamationSelect, reclamationNumbers, oneReclamation, twoReclamation, threeReclamation, fourReclamation, submitButton]);
+            disableInputs([genreSelect, naissanceInput, voitureInput, anneeInput, kiloInput, cameraSelect, reclamationSelect,
+                reclamationNumbers, oneReclamation, twoReclamation, threeReclamation, fourReclamation, submitButton]);
         }
     });
 
@@ -105,7 +124,8 @@ window.addEventListener("load", function () {
     kiloInput.addEventListener('change', function() {
         const validation = validateKilo(kiloInput, kiloError);
         if (!validation.isValid && validation.errorMessage === "Désolé, nous n'avons aucun produit à offrir pour ce profil de client") {
-            disableInputs([genreSelect, naissanceInput, voitureInput, anneeInput, kiloInput, cameraSelect, reclamationSelect, reclamationNumbers, oneReclamation, twoReclamation, threeReclamation, fourReclamation, submitButton]);
+            disableInputs([genreSelect, naissanceInput, voitureInput, anneeInput, kiloInput, cameraSelect, reclamationSelect,
+                reclamationNumbers, oneReclamation, twoReclamation, threeReclamation, fourReclamation, submitButton]);
         }
     });
 
@@ -114,15 +134,16 @@ window.addEventListener("load", function () {
     cameraSelect.addEventListener('change', function() {
         const validation = validateCamera(cameraSelect, cameraError);
         if (!validation.isValid && validation.errorMessage === "Désolé, nous n'avons aucun produit à offrir pour ce profil de client") {
-            disableInputs([genreSelect, naissanceInput, voitureInput, anneeInput, kiloInput, cameraSelect, reclamationSelect, reclamationNumbers, oneReclamation, twoReclamation, threeReclamation, fourReclamation, submitButton]);
+            disableInputs([genreSelect, naissanceInput, voitureInput, anneeInput, kiloInput, cameraSelect, reclamationSelect,
+                reclamationNumbers, oneReclamation, twoReclamation, threeReclamation, fourReclamation, submitButton]);
         }
     });
 
-    //CHECK RECLAMATION: More of a fonction than anything else
+    //CHECK RECLAMATION
     reclamationSelect.addEventListener('change', function() {
         if (reclamationSelect.value === "oui-reclamation") {
-            showDiv();
-            showDiv1();
+            showDivReclamation();
+            showDivQuestion1();
         } else {
             resetValues(oneReclamation,twoReclamation,threeReclamation,fourReclamation,totalReclamationError);
             defaultDiv();
@@ -130,7 +151,7 @@ window.addEventListener("load", function () {
     });
 
 
-    // CHECK NUMBER RECLAMATION :: FUNCTIONAL BUT NEED TO BE BETTER
+    // CHECK NUMBER RECLAMATION (desole)
     reclamationNumbers.addEventListener('change', function() {
         if (reclamationNumbers.value === "une-reclamation") {
             resetValues(oneReclamation,twoReclamation,threeReclamation,fourReclamation);
@@ -140,8 +161,8 @@ window.addEventListener("load", function () {
             clearErrorMessage(threeReclamationError);
             clearErrorMessage(fourReclamationError);
             defaultDiv();
-            showDiv();
-            showDiv1();
+            showDivReclamation();
+            showDivQuestion1();
         } else if (reclamationNumbers.value === "deux-reclamation") {
             resetValues(oneReclamation,twoReclamation,threeReclamation,fourReclamation);
             clearErrorMessage(numberReclamationError);
@@ -150,9 +171,9 @@ window.addEventListener("load", function () {
             clearErrorMessage(threeReclamationError);
             clearErrorMessage(fourReclamationError);
             defaultDiv();
-            showDiv();
-            showDiv1();
-            showDiv2();
+            showDivReclamation();
+            showDivQuestion1();
+            showDivQuestion2();
         } else if (reclamationNumbers.value === "trois-reclamation") {
             resetValues(oneReclamation,twoReclamation,threeReclamation,fourReclamation);
             clearErrorMessage(numberReclamationError);
@@ -161,10 +182,10 @@ window.addEventListener("load", function () {
             clearErrorMessage(threeReclamationError);
             clearErrorMessage(fourReclamationError);
             defaultDiv();
-            showDiv();
-            showDiv1();
-            showDiv2();
-            showDiv3();
+            showDivReclamation();
+            showDivQuestion1();
+            showDivQuestion2();
+            showDivQuestion3();
         } else if (reclamationNumbers.value === "quattre-reclamation") {
             resetValues(oneReclamation,twoReclamation,threeReclamation,fourReclamation);
             clearErrorMessage(numberReclamationError);
@@ -173,11 +194,11 @@ window.addEventListener("load", function () {
             clearErrorMessage(threeReclamationError);
             clearErrorMessage(fourReclamationError);
             defaultDiv();
-            showDiv();
-            showDiv1();
-            showDiv2();
-            showDiv3();
-            showDiv4();
+            showDivReclamation();
+            showDivQuestion1();
+            showDivQuestion2();
+            showDivQuestion3();
+            showDivQuestion4();
         } else if (reclamationNumbers.value === "cinq-reclamation") {
             resetValues(oneReclamation,twoReclamation,threeReclamation,fourReclamation);
             clearErrorMessage(numberReclamationError);
@@ -186,9 +207,10 @@ window.addEventListener("load", function () {
             clearErrorMessage(threeReclamationError);
             clearErrorMessage(fourReclamationError);
             defaultDiv();
-            showDiv();
+            showDivReclamation();
             displayErrorMessage("Désolé, nous n'avons aucun produit à offrir pour ce profil de client", numberReclamationError);
-            disableInputs([genreSelect, naissanceInput, voitureInput, anneeInput, kiloInput, cameraSelect, reclamationSelect, reclamationNumbers, oneReclamation, twoReclamation, threeReclamation, fourReclamation, submitButton]);
+            disableInputs([genreSelect, naissanceInput, voitureInput, anneeInput, kiloInput, cameraSelect,
+                reclamationSelect, reclamationNumbers, oneReclamation, twoReclamation, threeReclamation, fourReclamation, submitButton]);
         } 
 
     })
@@ -199,10 +221,12 @@ window.addEventListener("load", function () {
             const validation = validateReclamationInput(reclamation, reclamationError, reclamationNumber);
             const myOverload = checkOverload(oneReclamation, twoReclamation, threeReclamation, fourReclamation, totalReclamationError);
             if (!validation.isValid && validation.errorMessage === "Désolé, nous n'avons aucun produit à offrir pour ce profil de client") {
-                disableInputs([genreSelect, naissanceInput, voitureInput, anneeInput, kiloInput, cameraSelect, reclamationSelect, reclamationNumbers, oneReclamation, twoReclamation, threeReclamation, fourReclamation]);
+                disableInputs([genreSelect, naissanceInput, voitureInput, anneeInput, kiloInput, cameraSelect,
+                    reclamationSelect, reclamationNumbers, oneReclamation, twoReclamation, threeReclamation, fourReclamation]);
             } else if (validation.isValid) {
                 if (myOverload ===false){
-                    disableInputs([genreSelect, naissanceInput, voitureInput, anneeInput, kiloInput, cameraSelect, reclamationSelect, reclamationNumbers, oneReclamation, twoReclamation, threeReclamation, fourReclamation, submitButton]);
+                    disableInputs([genreSelect, naissanceInput, voitureInput, anneeInput, kiloInput,
+                        cameraSelect, reclamationSelect, reclamationNumbers, oneReclamation, twoReclamation, threeReclamation, fourReclamation, submitButton]);
                 }
             }
         });
@@ -219,8 +243,10 @@ window.addEventListener("load", function () {
     
     //CHECK RECLAMATION 4
     checkReclamation(fourReclamation, fourReclamationError, 4);
-    //***************************************************************************************************************************************************************
-    //**           IF EMPTY INPUTS            **
+
+
+    //******************************************
+    //**           IF EMPTY FIELDS            **
     //******************************************
 
     //CHECK DATE DE NAISSANCE VIDE
@@ -327,63 +353,8 @@ window.addEventListener("load", function () {
         return true;
     }
 
-//***************************************************************************************************************************************************************
-    //we have the reclamation inputs, need MONTANT BASE, NBR RECLAMATION, KILOMETRES
-    submitButton.addEventListener('click', function() {
-        let totalReclamations = checkOverload(oneReclamation, twoReclamation, threeReclamation, fourReclamation, totalReclamationError); //will either return 0 or 700
-            let myKilo = Number(kiloInput.value); //kilometrage de user 
-            let mynumberReclamation = getNbrReclamation(reclamationNumbers, reclamationSelect); //nbr de reclamation de user
-            let mybaseRate = getbaseRate(genreSelect,naissanceInput,voitureInput); //base rate de user
-            let myAnnualRate = calculateAnnualRate(mybaseRate, mynumberReclamation, myKilo, totalReclamations); //annual rate de user
-            let myMonthlyRate = calculateMonthlyRate(myAnnualRate); //monthly rate de user   
-        if (checkFilled() === true) {         
-            displayErrorMessage(myAnnualRate, showAnnualRate); //THIS DISPLAYS THE RECLAMATION INPUTS
-            displayErrorMessage(myMonthlyRate, showMonthlyRate); //THIS DISPLAYS THE RECLAMATION INPUTS
-            resetButton.style.display = 'block';
-        }
-
-
-
-    });
 
 });
-
-
-//******************************************
-function showDiv(){
-    const reclamationNumDiv = document.getElementById("reclamation-details");
-    reclamationNumDiv.style.display = "block";
-}
-function showDiv1(){
-    const questionOneDiv = document.getElementById("question-one");
-    questionOneDiv.style.display = "block";
-}
-function showDiv2(){
-    const questionTwoDiv = document.getElementById("question-two");
-    questionTwoDiv.style.display = "block";
-}
-function showDiv3(){
-    const questionThreeDiv = document.getElementById("question-three");
-    questionThreeDiv.style.display = "block";
-}
-function showDiv4(){
-    const questionFourDiv = document.getElementById("question-four");
-    questionFourDiv.style.display = "block";
-}
-
-
-function defaultDiv(){
-    const reclamationNumDiv = document.getElementById("reclamation-details");
-    const questionOneDiv = document.getElementById("question-one");
-    const questionTwoDiv = document.getElementById("question-two");
-    const questionThreeDiv = document.getElementById("question-three");
-    const questionFourDiv = document.getElementById("question-four");
-    reclamationNumDiv.style.display = "none";
-    questionOneDiv.style.display = "none";
-    questionTwoDiv.style.display = "none";
-    questionThreeDiv.style.display = "none";
-    questionFourDiv.style.display = "none";
-}
 
 
 //******************************************
@@ -535,7 +506,6 @@ function getNbrReclamation(reclamationNumbers, reclamationSelect){
     }
 }
 
-
 //get rate base
 function getbaseRate(genreSelect,naissanceInput,voitureInput){
     myValuedCar = Number(voitureInput.value);
@@ -545,7 +515,7 @@ function getbaseRate(genreSelect,naissanceInput,voitureInput){
     else if (isAge(naissanceInput) <= 75) {
         return 0.04*myValuedCar; //4%
     }
-    return 0.015*myValuedCar; //15%
+    return 0.015*myValuedCar; //1.5%
 }
 
 //get final rate
@@ -571,15 +541,46 @@ function resetValues(reclamation1, reclamation2, reclamation3, reclamation4) {
 //******************************************
 //**       FUNCTION OF EXECUTIONS         **
 //******************************************
+function showDivReclamation(){
+    const reclamationNumDiv = document.getElementById("reclamation-details");
+    reclamationNumDiv.style.display = "block";
+}
+function showDivQuestion1(){
+    const questionOneDiv = document.getElementById("question-one");
+    questionOneDiv.style.display = "block";
+}
+function showDivQuestion2(){
+    const questionTwoDiv = document.getElementById("question-two");
+    questionTwoDiv.style.display = "block";
+}
+function showDivQuestion3(){
+    const questionThreeDiv = document.getElementById("question-three");
+    questionThreeDiv.style.display = "block";
+}
+function showDivQuestion4(){
+    const questionFourDiv = document.getElementById("question-four");
+    questionFourDiv.style.display = "block";
+}
 
 
-    //!!!!!!!!!!!!!!!!!!!!! TEST!!!!!!!!!!!!!!!!!!!!!!
+function defaultDiv(){
+    const reclamationNumDiv = document.getElementById("reclamation-details");
+    const questionOneDiv = document.getElementById("question-one");
+    const questionTwoDiv = document.getElementById("question-two");
+    const questionThreeDiv = document.getElementById("question-three");
+    const questionFourDiv = document.getElementById("question-four");
+    reclamationNumDiv.style.display = "none";
+    questionOneDiv.style.display = "none";
+    questionTwoDiv.style.display = "none";
+    questionThreeDiv.style.display = "none";
+    questionFourDiv.style.display = "none";
+}
 
 function disableInputs(inputs) {
     for (let input of inputs) {
         input.disabled = true;
     }
-    resetButton.style.display = 'block'; // show reset button 
+    resetButton.style.display = 'block';
 } 
 
 
@@ -623,7 +624,6 @@ function isAge(dateInput){
 
 function displayErrorMessage(message, errorElement) {
     errorElement.textContent = message;
-    errorElement.style.color = "red";
 }
 
 function clearErrorMessages() {
@@ -633,8 +633,6 @@ function clearErrorMessages() {
     }
 }
 
-
-// Clear error message for a specific element
 function clearErrorMessage(errorElement) {
     errorElement.textContent = "";
 }
