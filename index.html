@@ -9,45 +9,57 @@
     <script src="myScript.js"></script>
 </head>
 <body>
-    <h1>Formulaire de reclamation</h1>
+    <div class="navbarLogo">
+        <img src="myLogo.png" alt="Logo de la compagnie d'assurance" >
+    
+    </div>
+    <div class="maCompagnie">
+        <p>BelairAutoIndirect</p>
+    </div>
+    <div class="navbar">
+        <ul>
+            <li><a href="#home">Accueil</a></li>
+            <li><a href="#about">À propos</a></li>
+            <li><a href="#contact">Contactez-nous</a></li>
+        </ul>
+    </div>
+        <h1>Calculer mon montant d'assurance</h1>
     <form id="myForm" action="_blank" method="post" onsubmit="return validateForm()">
         <!--Gobal msg: Désolé, nous n'avons aucun produit à offrir pour ce profil de client-->
-        <label for="genre">Quel est votre genre :</label>
+        <label for="genre">Quel est votre genre ?</label>
         <select id="genre" name="genre" >
             <option value="homme">Homme</option>
             <option value="femme">Femme</option>
             <option value="non-binaire">Non-binaire</option>
         </select>
-        <div id="genre-error" class="error"></div>
 
-        <label for="naissance">Date de naissance :</label>
+        <label for="naissance">Quel est votre date de naissance ?</label>
         <input type="date" id="naissance" name="naissance" >
         <div id="naissance-error" class="error"></div>
         <div id="result"></div>
 
         <!--calc age, then calc if >16 and girl == err OR if >18 and boy or nb OR if girl or boy or nb > 100 == err-->
         
-        <label for="voiture">Valeur de voiture :</label>
+        <label for="voiture">Quelle est la valeur d'achat de votre véhicule ?</label>
         <input type="text" id="voiture" name="voiture" >
         <div id="voiture-error" class="error"></div>
 
         
 
-        <label for="annee">Anné de fabrication de voiture :
+        <label for="annee">Quelle est l'année de fabrication de votre véhicule ?
         </label>
         <input type="text" id="annee" name="annee">
         <div id="annee-error" class="error"></div>
 
 
         
-        <label for="kilometre">Kilometres parcourus par année :</label>
+        <label for="kilometre">Combien de kilomètres parcourez-vous par année ?</label>
         <input type="text" id="kilometre" name="kilometre" >
         <div id="kilo-error" class="error"></div>
 
 
-        <label for="camera">Avez vous une camera de recul :</label>
+        <label for="camera">Est-ce que votre véhicule possède une caméra de recul ?</label>
         <select id="camera" name="camera" >
-            <option value="empty-camera"></option>
             <option value="oui-camera">Oui</option>
             <option value="non-camera">Non</option>
         </select>
@@ -55,20 +67,16 @@
 
 
 
-        <label for="reclamation">Avez vous fait des reclamation d'auto dans les 6 dernieres années :</label>
+        <label for="reclamation">Avez vous fait des reclamation d'auto dans les 6 dernières années ?</label>
         <select id="reclamation" name="reclamation" >
-            <option value="empty-reclamation"></option>
-            <option value="oui-reclamation">Oui</option>
             <option value="non-reclamation">Non</option>
+            <option value="oui-reclamation">Oui</option>
         </select>
-        <div id="reclamation-error" class="error"></div>
 
-
-        <div id="reclamationDetails">
+        <div id="reclamation-details">
             <!--default ==  numero reclamation hidden-->
-        <label for="numero-reclamation">Combien de réclamations avez-vous faites :</label>
+        <label for="numero-reclamation">Combien de réclamations avez-vous faites ?</label>
         <select id="numero-reclamation" name="numero-reclamation" >
-            <option value="vide-reclamation"></option>
             <option value="une-reclamation">1</option>
             <option value="deux-reclamation">2</option>
             <option value="trois-reclamation">3</option>
@@ -77,40 +85,38 @@
         </select>
         <div id="number-reclamation-error" class="error"></div>
         </div>
-
-        <!--For each numero de reclamation, get numero print and put on this method
-        1.check input number
-        if input == 5+ then err
-        take input and make the requests of each which $$ has it been claimed
-        if valuer reclamation is > 35 000$ then err
-        -->
         <div id="question-one">
-            <label for="1-reclamation">Pour la réclamation 1, quel montant avez-vous réclamé :</label>
+            <label for="1-reclamation">Pour la réclamation 1, quel montant avez-vous réclamé ?</label>
             <input type="text" id="1-reclamation" name="1-reclamation">
             <div id="1-reclamation-error" class="error"></div>
         </div>
         <div id="question-two">
-            <label for="2-reclamation">Pour la réclamation 2, quel montant avez-vous réclamé :</label>
+            <label for="2-reclamation">Pour la réclamation 2, quel montant avez-vous réclamé ?</label>
             <input type="text" id="2-reclamation" name="2-reclamation">
             <div id="2-reclamation-error" class="error"></div>
         </div>
         <div id="question-three">
-            <label for="3-reclamation">Pour la réclamation 3, quel montant avez-vous réclamé :</label>
+            <label for="3-reclamation">Pour la réclamation 3, quel montant avez-vous réclamé ?</label>
             <input type="text" id="3-reclamation" name="3-reclamation">
             <div id="3-reclamation-error" class="error"></div>
             <br>
         </div>
         <div id="question-four">
-            <label for="4-reclamation">Pour la réclamation 4, quel montant avez-vous réclamé :</label>
+            <label for="4-reclamation">Pour la réclamation 4, quel montant avez-vous réclamé ?</label>
             <input type="text" id="4-reclamation" name="4-reclamation">
             <div id="4-reclamation-error" class="error"></div>
         </div>
         <div id="amount-error" class="error"></div>
         <br>
         
-        <div id="annual-rate"></div>
-        <div id="monthly-rate"></div>
-        <input id="submit-button" type="button" value="Envoyer">
+        <div> montant de la prime annuelle :
+            <span id="annual-rate"></span>
+        </div>
+        <div> montant de la prime mensuelle :
+            <span id="monthly-rate"></span>
+        </div>
+        <br>
+        <input id="submit-button" type="button" value="Calculer le montant">
         <br>
         <br>
         <div  id="resetButton">
